@@ -42,7 +42,7 @@ void Animal::print() {
     {
         std::cout << ' ' << noise();
     }
-    std::cout <<std::endl;
+    std::cout << std::endl;
 }
 
 /* cow */
@@ -158,5 +158,5 @@ int main() {
     {
         delete animals[i];
     }
-    
+
 }
