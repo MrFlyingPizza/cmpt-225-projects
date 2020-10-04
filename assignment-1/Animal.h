@@ -12,6 +12,9 @@ public:
     // constructor with age
     Animal(int age);
 
+    // destructor
+    ~Animal();
+
     // return noise of the animal
     virtual std::string noise();
 

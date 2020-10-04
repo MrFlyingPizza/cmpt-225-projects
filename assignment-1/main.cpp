@@ -17,6 +17,9 @@ Animal::Animal() : age_in_months(0) {};
 // constructor with age
 Animal::Animal(int age) : age_in_months(age) {};
 
+// virtual destructor of animal
+Animal::~Animal() {};
+
 // noise() of animal
 std::string Animal::noise() {
     return "grunt";
