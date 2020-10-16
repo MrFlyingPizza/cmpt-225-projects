@@ -32,8 +32,14 @@ class EmptyStackException{
 
 /* Creates a stack of given capacity, defaults to '4' */
 template<typename T>
-Stack<T>::Stack(const int capacity) : stack_capacity(capacity), stack_size(0)
+Stack<T>::Stack(const int capacity) : stack_size(0)
 {
+    if (capacity < 0)
+    {
+        capacity = 4;
+        
+    }
+    
     stack_array = new T[capacity];
 }
 
