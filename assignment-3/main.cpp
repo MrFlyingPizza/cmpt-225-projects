@@ -118,7 +118,9 @@ void testStringIterator()
 int main(int argc, char const *argv[])
 {
     testArrayListUnderflow();
+    cout << endl;
     testIntegerIterator();
+    cout << endl;
     testStringIterator();
     
     return 0;
