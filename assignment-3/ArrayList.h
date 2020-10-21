@@ -16,10 +16,10 @@ public:
     explicit ArrayList(int capacity = DEFAULT_CAPACITY_);
     ~ArrayList();
     
-    T& operator[](int i);
+    T& operator[](int i) const;
     
-    T& front();
-    T& back();
+    T& front() const;
+    T& back() const;
 
     void insertFront(T const& e);
     void insertBack(T const& e);
@@ -29,11 +29,11 @@ public:
     void removeBack();
     void remove(Iterator p);
 
-    int size();
-    bool empty();
+    int size() const;
+    bool empty() const;
 
-    Iterator begin();
-    Iterator end();
+    Iterator begin() const;
+    Iterator end() const;
 
 private:
 
@@ -73,32 +73,36 @@ void ArrayList<T>::handleOverflow()
         new_array[i] = *iter;
         i++;
     }
+    
+    delete[] data_;
+    data_ = new_array;
+
     begin_ = Iterator(this, 0);
     back_ = Iterator(this, size_- 1);
     end_ = Iterator(this, size_);
 }
 
 template<typename T>
-T& ArrayList<T>::operator[](const int i)
+T& ArrayList<T>::operator[](const int i) const
 {
     if (empty()) throw EmptyListException();
     if (i < 0 || i >= size_) throw IndexOutOfBoundException();
 
-    ArrayList<T>::Iterator iter = this->begin_;
+    ArrayList<T>::Iterator iter = begin_;
     for (int j = 0; j < i; j++) ++iter;
 
     return *iter;
 }
 
 template<typename T>
-T& ArrayList<T>::front()
+T& ArrayList<T>::front() const
 {
     if (empty()) throw EmptyListException();
     return *begin_;
 }
 
 template<typename T>
-T& ArrayList<T>::back()
+T& ArrayList<T>::back() const
 {
     if (empty()) throw EmptyListException();
     return *back_;
@@ -205,25 +209,25 @@ void ArrayList<T>::remove(Iterator p)
 }
 
 template<typename T>
-int ArrayList<T>::size()
+int ArrayList<T>::size() const
 {
     return size_;
 }
 
 template<typename T>
-bool ArrayList<T>::empty()
+bool ArrayList<T>::empty() const
 {
     return size_ < 1;
 }
 
 template<typename T>
-typename ArrayList<T>::Iterator ArrayList<T>::begin()
+typename ArrayList<T>::Iterator ArrayList<T>::begin() const
 {
     return begin_;
 }
 
 template<typename T>
-typename ArrayList<T>::Iterator ArrayList<T>::end()
+typename ArrayList<T>::Iterator ArrayList<T>::end() const
 {
     return end_;
 }
