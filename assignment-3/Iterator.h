@@ -14,8 +14,8 @@ public:
     Iterator operator++();
     Iterator operator--();
 
-    bool operator==(Iterator& i);
-    bool operator!=(Iterator& i);
+    bool operator==(Iterator const& i);
+    bool operator!=(Iterator const& i);
 
 private:
 
@@ -50,13 +50,13 @@ typename ArrayList<T>::Iterator ArrayList<T>::Iterator::operator--()
 }
 
 template<typename T>
-bool ArrayList<T>::Iterator::operator==(Iterator& i)
+bool ArrayList<T>::Iterator::operator==(Iterator const& i)
 {
     return (array_list_ptr_ == i.array_list_ptr_ && index_ == i.index_);
 }
 
 template<typename T>
-bool ArrayList<T>::Iterator::operator!=(Iterator& i)
+bool ArrayList<T>::Iterator::operator!=(Iterator const& i)
 {
     return !(*this == i);
 }
