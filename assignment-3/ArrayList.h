@@ -49,6 +49,7 @@ private:
 };
 
 class InvalidIndexException {};
+class InvalidIteratorException {};
 class EmptyListException {};
 class InvalidListCapacityException {};
 
@@ -158,7 +159,7 @@ void ArrayList<T>::insert(Iterator& p, T const& e)
     }
     else
     {
-        validate(p);
+        if (!validate(p)) throw InvalidIteratorException();
         Iterator get_iter = back_, set_iter = end_;
         while (set_iter != p)
         {
@@ -211,7 +212,7 @@ void ArrayList<T>::remove(Iterator& p)
     }
     else
     {
-        validate(p);
+        if (!validate(p)) throw InvalidIteratorException();
         Iterator set_iter = p, get_iter = p;
         ++get_iter;
         while (get_iter != end_)
@@ -220,9 +221,9 @@ void ArrayList<T>::remove(Iterator& p)
             ++get_iter;
             ++set_iter;
         }
-        
+        --size_;
     }
-
+    
 }
 
 /* Returns the number of elements in the ArrayList. */
