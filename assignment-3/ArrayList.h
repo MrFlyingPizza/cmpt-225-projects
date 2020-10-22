@@ -151,7 +151,6 @@ void ArrayList<T>::insert(Iterator& p, T const& e)
     if (p == begin_)
     {
         insertFront(e);
-        std::cout << "BEGINGG" << std::endl;
     }
     else if (p == end_)
     {
