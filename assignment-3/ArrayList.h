@@ -1,5 +1,6 @@
 /* 
-* By Richard Gao
+* ArrayList.h
+* By Han Gao
 */
 
 #ifndef ARRAYLIST_H
@@ -23,11 +24,11 @@ public:
 
     void insertFront(T const& e);
     void insertBack(T const& e);
-    void insert(Iterator p, T const& e);
+    void insert(Iterator& p, T const& e);
 
     void removeFront();
     void removeBack();
-    void remove(Iterator p);
+    void remove(Iterator& p);
 
     int size() const;
     bool empty() const;
@@ -50,6 +51,7 @@ class IndexOutOfBoundException {};
 class EmptyListException {};
 class InvalidListCapacityException {};
 
+/* Constructs a ArrayList of given capacity (default: 4). */
 template<typename T>
 ArrayList<T>::ArrayList(const int capacity)
 : size_(0), capacity_(capacity), begin_(this, 0), back_(this, 0), end_(this, 1)
@@ -57,12 +59,14 @@ ArrayList<T>::ArrayList(const int capacity)
     data_ = new T[capacity + 1];
 }
 
+/* Frees memory allocated to ArrayList and destructs the object */
 template<typename T>
 ArrayList<T>::~ArrayList()
 {
     if (data_ != nullptr) delete[] data_;
 }
 
+/* Handles doubling the capacity of ArrayList */
 template<typename T>
 void ArrayList<T>::handleOverflow()
 {
@@ -82,6 +86,7 @@ void ArrayList<T>::handleOverflow()
     end_ = Iterator(this, size_);
 }
 
+/* Returns a reference to the value at index 'i' in the ArrayList. */
 template<typename T>
 T& ArrayList<T>::operator[](const int i) const
 {
@@ -94,6 +99,7 @@ T& ArrayList<T>::operator[](const int i) const
     return *iter;
 }
 
+/* Returns a reference to the first value of ArrayList. */
 template<typename T>
 T& ArrayList<T>::front() const
 {
@@ -101,6 +107,7 @@ T& ArrayList<T>::front() const
     return *begin_;
 }
 
+/* Returns a reference to the last value of ArrayList. */
 template<typename T>
 T& ArrayList<T>::back() const
 {
@@ -108,6 +115,7 @@ T& ArrayList<T>::back() const
     return *back_;
 }
 
+/* Inserts a value to the front of ArrayList. */
 template<typename T>
 void ArrayList<T>::insertFront(T const& e)
 {
@@ -118,6 +126,7 @@ void ArrayList<T>::insertFront(T const& e)
     size_++;
 }
 
+/* Inserts a value to the back of ArrayList. */
 template<typename T>
 void ArrayList<T>::insertBack(T const& e)
 {
@@ -132,8 +141,9 @@ void ArrayList<T>::insertBack(T const& e)
     size_++;
 }
 
+/* Inserts a value at 'p'. */
 template<typename T>
-void ArrayList<T>::insert(Iterator p, T const& e)
+void ArrayList<T>::insert(Iterator& p, T const& e)
 {
     if (size_ == capacity_) handleOverflow();
 
@@ -161,6 +171,7 @@ void ArrayList<T>::insert(Iterator p, T const& e)
     
 }
 
+/* Remove the first element of ArrayList. */
 template<typename T>
 void ArrayList<T>::removeFront()
 {
@@ -170,6 +181,7 @@ void ArrayList<T>::removeFront()
     size_--;
 }
 
+/* Removes the last element of ArrayList */
 template<typename T>
 void ArrayList<T>::removeBack()
 {
@@ -180,8 +192,9 @@ void ArrayList<T>::removeBack()
     size_--;
 }
 
+/* Removes the element at 'p'. */
 template<typename T>
-void ArrayList<T>::remove(Iterator p)
+void ArrayList<T>::remove(Iterator& p)
 {
     if (empty()) throw EmptyListException();
     
@@ -208,24 +221,28 @@ void ArrayList<T>::remove(Iterator p)
 
 }
 
+/* Returns the number of elements in the ArrayList. */
 template<typename T>
 int ArrayList<T>::size() const
 {
     return size_;
 }
 
+/* Checks if the ArrayList is empty. */
 template<typename T>
 bool ArrayList<T>::empty() const
 {
     return size_ < 1;
 }
 
+/* Returns an Iterator to the start of ArrayList. */
 template<typename T>
 typename ArrayList<T>::Iterator ArrayList<T>::begin() const
 {
     return begin_;
 }
 
+/* Returns an Iterator to 1 past the last position. */
 template<typename T>
 typename ArrayList<T>::Iterator ArrayList<T>::end() const
 {
