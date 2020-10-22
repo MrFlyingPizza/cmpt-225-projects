@@ -19,7 +19,7 @@ public:
 
 private:
 
-    ArrayList<T>* array_list_ptr_;
+    ArrayList<T> const* array_list_ptr_;
     int index_;
 
 };
