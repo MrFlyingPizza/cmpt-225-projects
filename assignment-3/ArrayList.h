@@ -32,6 +32,7 @@ public:
 
     int size() const;
     bool empty() const;
+    bool validate(Iterator& p) const;
 
     Iterator begin() const;
     Iterator end() const;
@@ -47,7 +48,7 @@ private:
     void handleOverflow();
 };
 
-class IndexOutOfBoundException {};
+class InvalidIndexException {};
 class EmptyListException {};
 class InvalidListCapacityException {};
 
@@ -91,7 +92,7 @@ template<typename T>
 T& ArrayList<T>::operator[](const int i) const
 {
     if (empty()) throw EmptyListException();
-    if (i < 0 || i >= size_) throw IndexOutOfBoundException();
+    if (i < 0 || i >= size_) throw InvalidIndexException();
 
     ArrayList<T>::Iterator iter = begin_;
     for (int j = 0; j < i; j++) ++iter;
@@ -150,6 +151,7 @@ void ArrayList<T>::insert(Iterator& p, T const& e)
     if (p == begin_)
     {
         insertFront(e);
+        std::cout << "BEGINGG" << std::endl;
     }
     else if (p == end_)
     {
@@ -157,6 +159,7 @@ void ArrayList<T>::insert(Iterator& p, T const& e)
     }
     else
     {
+        validate(p);
         Iterator get_iter = back_, set_iter = end_;
         while (set_iter != p)
         {
@@ -167,6 +170,7 @@ void ArrayList<T>::insert(Iterator& p, T const& e)
         ++end_;
         ++back_;
         *p = e;
+        ++size_;
     }
     
 }
@@ -208,6 +212,7 @@ void ArrayList<T>::remove(Iterator& p)
     }
     else
     {
+        validate(p);
         Iterator set_iter = p, get_iter = p;
         ++get_iter;
         while (get_iter != end_)
@@ -233,6 +238,35 @@ template<typename T>
 bool ArrayList<T>::empty() const
 {
     return size_ < 1;
+}
+
+/* Check if Iterator 'i' belongs to ArrayList and within range. */
+template<typename T>
+bool ArrayList<T>::validate(Iterator& p) const
+{
+    bool valid = false;
+    if (p == end_)
+    {
+        valid = true;
+    }
+    else
+    {
+        Iterator iter = begin_;
+        while (valid == false && iter != end_)
+        {
+            if (iter == p)
+            {
+                valid = true;
+            }
+            else
+            {
+                ++iter;
+            }
+
+        }
+
+    }
+    return valid;
 }
 
 /* Returns an Iterator to the start of ArrayList. */
