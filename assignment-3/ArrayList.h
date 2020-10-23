@@ -95,10 +95,14 @@ T& ArrayList<T>::operator[](const int i) const
     if (empty()) throw EmptyListException();
     if (i < 0 || i >= size_) throw InvalidIndexException();
 
-    ArrayList<T>::Iterator iter = begin_;
-    for (int j = 0; j < i; j++) ++iter;
-
-    return *iter;
+    const int start_offset = &(*begin_)-data_;
+    int offset = start_offset + i;
+    if (offset > size_)
+    {
+        offset -= size_;
+    }
+    
+    return data_[offset];
 }
 
 /* Returns a reference to the first value of ArrayList. */
@@ -223,7 +227,7 @@ void ArrayList<T>::remove(Iterator& p)
         }
         --size_;
     }
-    
+
 }
 
 /* Returns the number of elements in the ArrayList. */
