@@ -25,8 +25,6 @@ private:
 
 };
 
-class IteratorPastBoundException {};
-
 template<typename T>
 ArrayList<T>::Iterator::Iterator(ArrayList<T> const* arraylist_ptr, const int iter_index)
 : arraylist_ptr_(arraylist_ptr), iter_index_(iter_index) {}

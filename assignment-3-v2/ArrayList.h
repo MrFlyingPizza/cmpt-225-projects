@@ -11,7 +11,7 @@ public:
 
     class Iterator;
 
-    ArrayList(int capacity = 4);
+    explicit ArrayList(int capacity = 4);
 
     T& operator[](int i);
     T& front();
@@ -47,6 +47,7 @@ private:
 
 class InvalidIndexException {};
 class EmptyListException {};
+class IteratorPastBoundException {};
 
 template<typename T>
 ArrayList<T>::ArrayList(const int capacity)
@@ -70,9 +71,14 @@ bool ArrayList<T>::isValid(Iterator const& p)
     bool valid = false;
     if (p.arraylist_ptr_ == this)
     {
-        valid = (begin_.iter_index_ < end_.iter_index_ && begin_.iter_index_ < p.iter_index
-                && p.iter_index_ < end_.iter_index_)|| (begin_.iter_index_ > end_.iter_index_ && p.iter_index_ >= 0 && p.iter_index_ < end_.iter_index_
-        && p.iter_index_ >= begin_.iter_index_ && p.iter_index_ <= capacity_);
+        valid = (begin_.iter_index_ < end_.iter_index_
+                && begin_.iter_index_ < p.iter_index
+                && p.iter_index_ < end_.iter_index_)
+                || (begin_.iter_index_ > end_.iter_index_
+                && p.iter_index_ >= 0
+                && p.iter_index_ < end_.iter_index_
+                && p.iter_index_ >= begin_.iter_index_
+                && p.iter_index_ <= capacity_);
     }
     return valid;
 }
@@ -125,8 +131,28 @@ void ArrayList<T>::insertBack(T const& e)
 template<typename T>
 void ArrayList<T>::insert(Iterator& p, const T &e)
 {
+    if (!isValid(p)) throw IteratorPastBoundException();
     if (capacity_ == size_) handleOverflow();
 
+    Iterator get_iter = back_, set_iter = end_;
+    while (set_iter != p)
+    {
+        *set_iter = *get_iter;
+        --get_iter;
+        --set_iter;
+    }
+    *p = e;
+    ++back_;
+    ++end_;
+    ++size_;
+}
+
+template<typename T>
+void ArrayList<T>::removeFront()
+{
+    if (empty()) throw EmptyListException();
+    --begin_;
+    --size_;
 }
 
 #endif //ASSIGNMENT_3_V2_ARRAYLIST_H
