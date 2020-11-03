@@ -112,13 +112,13 @@ bool Heap::empty() const
     return size_ <= 0;
 }
 
-void Heap::makeHeap(const int cap, Entry const* entries, const int n) //test
+void Heap::makeHeap(const int cap, Entry const* entries, const int n)
 {
     if (cap == 0) return;
 
     const int l_cap = cap/2;
-    const int max = (cap >= n) ? n : cap;
-    for (int i = l_cap; i <= max; ++i)
+    const int max = (cap >= n) ? n+1 : cap;
+    for (int i = l_cap; i < max; ++i)
     {
         entries_[i] = entries[i-1];
         downHeap(i);
