@@ -1,4 +1,5 @@
 #include <string>
+#include <iostream>
 
 #include "Entry.h"
 #include "Heap.h"
@@ -111,7 +112,31 @@ bool Heap::empty() const
     return size_ <= 0;
 }
 
+void Heap::makeHeap(const int cap, Entry const* entries, const int n) //test
+{
+    if (cap == 0) return;
+
+    const int l_cap = cap/2;
+    const int max = (cap >= n) ? n : cap;
+    for (int i = l_cap; i <= max; ++i)
+    {
+        entries_[i] = entries[i-1];
+        downHeap(i);
+    }
+
+    makeHeap(l_cap, entries, n);
+}
+
 void Heap::make(Entry const* entries, const int n)
 {
-    
+    int count = 1;
+    while (count < n) count *= 2;
+
+    if (entries_ != nullptr) delete[] entries_;
+    entries_ = new Entry[count];
+
+    capacity_ = count + 1;
+    size_ = n;
+
+    makeHeap(count, entries, n);
 }
