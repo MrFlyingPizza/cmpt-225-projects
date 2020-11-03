@@ -12,6 +12,7 @@ private:
     void swap(int j, int k);
     void upHeap(int c_i);
     void downHeap(int c_i);
+    void makeHeap(int cap, Entry const* entries, int n);
 public:
     explicit Heap(int capacity = 3);
     ~Heap();
