@@ -86,4 +86,5 @@ int main()
 
     cout << "\n\nTEST 4 - heapsort2() n=" << n << " :\n" << endl;
     test_heapsort2(n);
+    return 0;
 }
