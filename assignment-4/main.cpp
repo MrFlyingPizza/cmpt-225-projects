@@ -53,7 +53,7 @@ void test_heapsort1(const int n)
 
     heapsort1(entries, n);
 
-    cout << "  sorted: " << entriesToString(entries, n) << endl;
+    cout << "\n  sorted: " << entriesToString(entries, n) << endl;
 }
 
 void test_heapsort2(const int n)
@@ -66,22 +66,24 @@ void test_heapsort2(const int n)
 
     heapsort1(entries, n);
 
-    cout << "  sorted: " << entriesToString(entries, n) << endl;
+    cout << "\n  sorted: " << entriesToString(entries, n) << endl;
 }
 
 int main()
 {
     srand(time(0));
 
-    cout << "TEST 1 - heapsort1() n=15 :" << endl;
-    test_heapsort1(15);
+    int n = 15;
+    cout << "TEST 1 - heapsort1() n=" << n << " :\n" << endl;
+    test_heapsort1(n);
 
-    cout << "TEST 2 - heapsort2() n=15 :" << endl;
-    test_heapsort2(15);
+    cout << "\n\nTEST 2 - heapsort2() n=" << n << " :\n" << endl;
+    test_heapsort2(n);
 
-    cout << "TEST 3 - heapsort2() n=31 :" << endl;
-    test_heapsort1(31);
+    n = 31;
+    cout << "\n\nTEST 3 - heapsort2() n=" << n << " :\n" << endl;
+    test_heapsort1(n);
 
-    cout << "TEST 4 - heapsort2() n=31 :" << endl;
-    test_heapsort2(31);
+    cout << "\n\nTEST 4 - heapsort2() n=" << n << " :\n" << endl;
+    test_heapsort2(n);
 }
