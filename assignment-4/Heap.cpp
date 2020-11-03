@@ -114,7 +114,7 @@ bool Heap::empty() const
 
 void Heap::makeHeap(const int cap, Entry const* entries, const int n)
 {
-    if (cap == 0) return;
+    if (cap == 1) return;
 
     const int l_cap = cap/2;
     const int max = (cap >= n) ? n+1 : cap;
@@ -133,9 +133,9 @@ void Heap::make(Entry const* entries, const int n)
     while (count < n) count *= 2;
 
     if (entries_ != nullptr) delete[] entries_;
-    entries_ = new Entry[count];
+    entries_ = new Entry[count+1];
 
-    capacity_ = count + 1;
+    capacity_ = count;
     size_ = n;
 
     makeHeap(count, entries, n);
