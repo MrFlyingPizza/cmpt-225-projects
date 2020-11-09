@@ -8,6 +8,11 @@ const Entry Entry::MINUS_INF = Entry(-2);
 const Entry Entry::PLUS_INF = Entry(-1);
 const Entry Entry::END = Entry(-3);
 
+
+Entry::Entry()
+: key_(0), value_("")
+{}
+
 Entry::Entry(const int inf_key)
 : key_(inf_key), value_("")
 {}

@@ -6,12 +6,23 @@
 
 using namespace std;
 
+void test(int count)
+{
+    srand(time(0));
+    SkipList sl = SkipList();
+    for (int i = 0; i < count; i++)
+    {
+        Entry e;
+        e.random();
+        sl.put(e.getKey(), e.getValue());
+        cout << "Inserted: " << e.toString() << endl;
+    }
+    
+    sl.print();
+}
+
 int main()
 {
-    SkipList sl = SkipList();
-    sl.put(2,"str");
-    cout << sl.find(1).getKey() << endl
-        << sl.greaterEntry(1).getKey() << endl
-        << sl.lesserEntry(1).getKey() << endl;
+    test(10);
     return 0;
 }

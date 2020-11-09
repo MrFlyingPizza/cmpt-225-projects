@@ -15,7 +15,7 @@ private:
 
     int size_, max_level_;
 
-    QuadNode *lnode_, *rnode_;
+    QuadNode *lnode_, *rnode_, *base_node_;
 
     QuadNode* listInsert(QuadNode* node, Entry k) const;
 
@@ -32,6 +32,8 @@ public:
 
     int size() const;
     bool empty() const;
+
+    void print() const;
 };
 
 #endif
