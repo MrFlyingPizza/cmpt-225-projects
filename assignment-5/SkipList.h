@@ -29,4 +29,6 @@ public:
     void print() const;
 };
 
+class NotFoundException {};
+
 #endif

@@ -27,7 +27,9 @@ SkipList::~SkipList()
         {
             temp = hnode;
             hnode = hnode->next_;
-            if (!temp->entry_->isKeyEqual(Entry::M_INF) && !temp->entry_->isKeyEqual(Entry::P_INF))
+
+            if (!temp->entry_->isKeyEqual(Entry::M_INF)
+                && !temp->entry_->isKeyEqual(Entry::P_INF))
                 delete temp->entry_;
             
             if (temp != nullptr)
@@ -41,16 +43,13 @@ SkipList::~SkipList()
 Entry const& SkipList::find(const int k) const
 {
     QuadNode *current = lnode_;
-    QuadNode *next = current->next_;
-    while (current->entry_->getKey() != k)
+    QuadNode *next = current;
+    while (current->entry_->getKey() != k && current != nullptr)
     {
-        current = (*next == QuadNode::P_INF) ? current->below_ : current->next_;
-        if (current == nullptr)
-            return Entry::END_ENTRY;
-
         next = current->next_;
+        current = (*next == QuadNode::P_INF) ? current->below_ : current->next_;
     }
-    return *current->entry_;
+    return (current == nullptr) ? Entry::END_ENTRY : *current->entry_;
 }
 
 Entry const& SkipList::lesserEntry(const int k) const
@@ -87,7 +86,8 @@ Entry const& SkipList::greaterEntry(const int k) const
     return *current->entry_;
 }
 
-SkipList::QuadNode* SkipList::listInsert(QuadNode* node, const int k, const std::string v) const
+SkipList::QuadNode* SkipList::listInsert(
+    QuadNode* node, const int k, const std::string v) const
 {
     QuadNode* insertion_node = new QuadNode(new Entry(k, v));
     
@@ -135,13 +135,14 @@ void SkipList::put(const int k, const std::string v)
     QuadNode* descend_node = lnode_->below_;
     QuadNode* inserted_node;
     QuadNode* old_inserted_node = nullptr;
+    QuadNode* dupe_node = nullptr;
     while (descend_node != nullptr)
     {
         inserted_node = listInsert(descend_node, k, v);
 
         if (*inserted_node == *inserted_node->next_)
         {
-            QuadNode* dupe_node = inserted_node->next_;
+            dupe_node = inserted_node->next_;
             inserted_node->next_ = inserted_node->next_->next_;
             delete dupe_node;
         }
@@ -154,11 +155,31 @@ void SkipList::put(const int k, const std::string v)
         descend_node = descend_node->below_;
     }
 
+    if (dupe_node != nullptr)
+        ++size_;
 }
 
 void SkipList::erase(const int k)
 {
+    QuadNode *current = lnode_;
+    QuadNode *next;
+    while (current->entry_->getKey() != k && current != nullptr)
+    {
+        next = current->next_;
+        current = (*next == QuadNode::P_INF) ? current->below_ : current->next_;
+    }
 
+    if (current == nullptr)
+        throw NotFoundException();
+    
+    QuadNode *descend_node;
+    while (descend_node != nullptr)
+    {
+        descend_node->prev_->next_ = descend_node->next_;
+        descend_node->next_->prev_ = descend_node->prev_;
+        delete descend_node;
+        descend_node = descend_node->below_;
+    }
 }
 
 int SkipList::size() const
