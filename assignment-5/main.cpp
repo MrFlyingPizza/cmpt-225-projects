@@ -23,6 +23,6 @@ void test(int count)
 
 int main()
 {
-    test(10);
+    test(40);
     return 0;
 }
