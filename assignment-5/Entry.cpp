@@ -47,3 +47,8 @@ bool Entry::operator>(Entry const& entry) const
 {
     return (entry.inf_key_ != 0 || inf_key_ != 0) ? (inf_key_ > entry.inf_key_) : (key_ > entry.key_);
 }
+
+bool Entry::isKeyEqual(Entry const& entry) const
+{
+    return key_ == entry.key_;
+}

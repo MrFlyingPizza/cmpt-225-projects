@@ -35,6 +35,8 @@ public:
 
     bool operator>(Entry const& entry) const;
     bool operator<(Entry const& entry) const;
+
+    bool isKeyEqual(Entry const& entry) const;
 };
 
 #endif
