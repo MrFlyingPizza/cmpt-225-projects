@@ -9,8 +9,8 @@
 SkipList::SkipList()
 : size_(0), max_level_(0)
 {
-    lnode_ = new QuadNode(QuadNode::MINUS);
-    lnode_->next_= new QuadNode(QuadNode::PLUS);
+    lnode_ = new QuadNode(QuadNode::M_INF);
+    lnode_->next_= new QuadNode(QuadNode::P_INF);
     rnode_ = lnode_->next_;
     base_node_ = lnode_;
 }
@@ -27,17 +27,11 @@ SkipList::~SkipList()
         {
             temp = hnode;
             hnode = hnode->next_;
-            if (temp->entry_ != nullptr)
-            {
-                std::cout << "deleting " << temp->entry_->toString();
+            if (!temp->entry_->isKeyEqual(Entry::M_INF) && !temp->entry_->isKeyEqual(Entry::P_INF))
                 delete temp->entry_;
-            }
             
             if (temp != nullptr)
-            {
-                std::cout << "deleting " << temp << std::endl;
                 delete temp;
-            }
         }
         vnode = vnode->below_;
     }
