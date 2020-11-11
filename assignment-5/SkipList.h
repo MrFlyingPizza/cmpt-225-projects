@@ -3,21 +3,14 @@
 
 class SkipList {
 private:
-    class QuadNode {
-        friend class SkipList;
 
-    private:
-        explicit QuadNode(Entry const& entry);
-        explicit QuadNode(int inf_key);
-        Entry const& entry_;
-        QuadNode *prev_, *next_, *below_, *above_;
-    };
+    class QuadNode;
 
     int size_, max_level_;
 
     QuadNode *lnode_, *rnode_, *base_node_;
 
-    QuadNode* listInsert(QuadNode* node, Entry k) const;
+    QuadNode* listInsert(QuadNode* node, int k, std::string) const;
 
 public:
     SkipList();
