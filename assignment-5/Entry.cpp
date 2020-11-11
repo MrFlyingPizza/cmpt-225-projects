@@ -1,27 +1,18 @@
 #include <string>
 
 #include "Entry.h"
-#include "SkipList.h"
 
+const Entry Entry::END_ENTRY = Entry(InfKey::END);
+const Entry Entry::P_INF = Entry(InfKey::PLUS);
+const Entry Entry::M_INF = Entry(InfKey::MINUS);
 
-const Entry Entry::MINUS_INF = Entry(-2);
-const Entry Entry::PLUS_INF = Entry(-1);
-const Entry Entry::END = Entry(-3);
-
-
-Entry::Entry()
-: key_(0), value_("")
-{}
-
-Entry::Entry(const int inf_key)
-: key_(inf_key), value_("")
+Entry::Entry(const InfKey inf_key)
+: inf_key_(inf_key)
 {}
 
 Entry::Entry(const int key, const std::string value)
-: key_(key), value_(value)
-{
-    if (key < 0) throw NegativeKeyException();
-}
+: inf_key_(NONE), key_(key), value_(value)
+{}
 
 int Entry::getKey() const
 {
@@ -45,4 +36,14 @@ void Entry::random()
     char c_str[4] = {0};
     for (short i = 0; i < 3; i++) c_str[i] = 'a'+rand()%26;
     value_ = std::string(c_str);
+}
+
+bool Entry::operator<(Entry const& entry) const
+{
+    return (entry.inf_key_ != 0 || inf_key_ != 0) ? (inf_key_ < entry.inf_key_) : (key_ < entry.key_);
+}
+
+bool Entry::operator>(Entry const& entry) const
+{
+    return (entry.inf_key_ != 0 || inf_key_ != 0) ? (inf_key_ > entry.inf_key_) : (key_ > entry.key_);
 }

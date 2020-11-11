@@ -1,28 +1,40 @@
 #ifndef ENTRY_H
 #define ENTRY_H
 
-class Entry {
-    friend class SkipList;
+#include <string>
 
-    const static Entry MINUS_INF;
-    const static Entry PLUS_INF;
-    const static Entry END;
+class Entry {
 private:
+    enum InfKey
+    {
+        NONE = 0,
+        PLUS = 1,
+        MINUS = -1,
+        END = -2
+    };
+
+    const InfKey inf_key_;
+
     int key_;
     std::string value_;
 
-    Entry(int inf_key);
+    explicit Entry(InfKey inf_key);
+    
 public:
-    Entry(int key, std::string value);
-    Entry();
+    const static Entry END_ENTRY;
+    const static Entry M_INF;
+    const static Entry P_INF;
+
+    Entry(int key = 0, std::string value = "");
 
     int getKey() const;
     std::string getValue() const;
     std::string toString() const;
     
     void random();
-};
 
-class NegativeKeyException {};
+    bool operator>(Entry const& entry) const;
+    bool operator<(Entry const& entry) const;
+};
 
 #endif
