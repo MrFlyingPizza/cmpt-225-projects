@@ -38,15 +38,13 @@ Entry const& SkipList::find(const int k) const
     if (empty()) return Entry::END_ENTRY;
 
     QuadNode *current = lnode_->below_;
-    QuadNode *next = current;
-    while (!current->entry_->isKeyEqual(k) && current != nullptr)
+    while (current != nullptr)
     {
-        next = current->next_;
-        std::cout << "CURRENT " << current->entry_->toString() << std::endl;
-        current = (!next->entry_->isKeyGreaterThan(k) && *current->next_->entry_ != *rnode_->entry_)
-                ? current->next_ : current->below_;
+        if (current->entry_->isKeyEqual(k)) return *current->entry_;
+        current = (!current->next_->entry_->isKeyGreaterThan(k))
+            ? current->next_ : current->below_;
     }
-    return (current == nullptr) ? Entry::END_ENTRY : *current->entry_;
+    return Entry::END_ENTRY;
 }
 
 Entry const& SkipList::lesserEntry(const int k) const
