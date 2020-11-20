@@ -6,41 +6,57 @@
 
 using namespace std;
 
-void test()
-{
-    SkipList sl;
-    Entry temp;
-    const int n = 10;
-    cout << "Inserted: ";
-    for (int i = 0; i < n; ++i)
-    {
-        temp.random();
-        cout << "INSERTING " << temp.toString() << endl;
-        sl.put(temp.getKey(), temp.getValue());
-        sl.print();
-    }
-    cout << endl;
-
-    int key = temp.getKey();
-    Entry res;
-    cout <<  "key to find: " << key << endl;
-    res = sl.find(key);
-    cout << "find res: " << res.toString() << endl;
-    cout << "ERASING " << res.toString() << endl;
-    sl.erase(key);
-    sl.print();
-}
-
 int main()
 {
     srand(time(0));
-    time_t old = time(0);
-    while (true)
+
+    const int n = 8;
+
+    SkipList sl = SkipList();
+    Entry e[n];
+    /* put test */
+    for (int i = 0; i < n; ++i)
     {
-        if (time(0) != old)
-        {
-            test();
-            old = time(0);
-        }
+        e[i].random();
+        sl.put(e[i].getKey(), e[i].getValue());
+
     }
+    sl.print();
+
+    /* erase test */
+    const int to_erase = e[n-1].getKey();
+    cout << "Key to erase: " << to_erase << endl;
+    sl.erase(to_erase);
+    sl.print();
+
+    /* find existing test */
+    int to_find = e[rand()%sl.size()].getKey();
+    cout << "Finding an existing entry with key " << to_find << endl
+        << "Result: " << sl.find(to_find).toString() << endl;
+
+    /* find deleted test */
+    cout << "Finding an deleted entry with key " << to_erase << endl
+        << "Result: " << sl.find(to_erase).toString() << endl;
+
+    /* greater than test */
+    const int k = rand()%100;
+    cout << "Finding an entry greater than " << k << ':'
+        << " result: " << sl.greaterEntry(k).toString() << endl;
+
+    /* less than test */
+    cout << "Finding an entry less than " << k << ':'
+        << " result: " << sl.lesserEntry(k).toString() << endl;
+    
+    /* large put test */
+    SkipList sl_other = SkipList();
+    Entry q;
+    const int m = 40;
+    cout << "Inserting " << m << " elements to new skiplist:" << endl;
+    for (int i = 0; i < m; i++)
+    {
+        q.random();
+        sl.put(q.getKey(), q.getValue());
+    }
+    
+    sl.print();
 }
