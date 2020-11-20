@@ -26,6 +26,15 @@ std::string Entry::getValue() const
 
 std::string Entry::toString() const
 {
+    if (this->inf_key_ == InfKey::END)
+        return std::string("(END)");
+    
+    if (this->inf_key_ == InfKey::MINUS)
+        return std::string("(M_INF)");
+    
+    if (this->inf_key_ == InfKey::PLUS)
+        return std::string("(P_INF)");
+    
     std::string result("(");
     return result.append(std::to_string(key_)).append(", ").append(value_).append(")");
 }
